@@ -1,9 +1,9 @@
 <!doctype html>
 <html lang="id">
- <head>
+<head>
   <meta charset="UTF-8">
-  <title>Portofolio Guru - Ahmad Zaim Kholili</title><!-- Tailwind via CDN -->
-  <script src="https://cdn.tailwindcss.com"></script><!-- Canva SDKs -->
+  <title>Portofolio Guru - Ahmad Zaim Kholili</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <script src="/_sdk/element_sdk.js"></script>
   <script src="/_sdk/data_sdk.js"></script>
   <style>
@@ -742,22 +742,318 @@
     }
   </script>
   <style>@view-transition { navigation: auto; }</style>
- </head>
- <body class="h-full">
+</head>
+<body class="h-full">
   <div id="root" class="h-full w-full flex items-center justify-center px-4 py-4">
-   <div class="max-w-5xl w-full"><!-- HEADER ATAS -->
-    <header class="mb-4">
-     <div class="flex items-center justify-between rounded-xl px-4 py-3 shadow-lg border border-slate-200" style="background: linear-gradient(to right, #2563eb, #3b82f6);">
-      <div class="flex items-center gap-2">
-       <div class="w-8 h-8 rounded-full bg-white/90 flex items-center justify-center text-blue-600 text-lg font-bold">
-        AZ
-       </div>
-       <h1 id="headerTitle" class="text-white font-semibold tracking-wide">Portofolio Digital Guru</h1>
-      </div>
-      <!-- Tombol "Lihat sebagai Publik" dihapus sesuai permintaan -->
-     </div>
-    </header>
-    <main class="grid grid-cols-1 gap-4"><!-- KOLOM PENUH -->
-     <section class="space-y-4"><!-- COVER + PROFIL -->
-      <section id="mainCard" class="rounded-xl border border-slate-200 overflow-hidden shadow-2xl bg-white"><!-- Cover Photo dengan Upload -->
-      
+    <div class="max-w-5xl w-full">
+      <!-- HEADER ATAS -->
+      <header class="mb-4">
+        <div class="flex items-center justify-between rounded-xl px-4 py-3 shadow-lg border border-slate-200" style="background: linear-gradient(to right, #2563eb, #3b82f6);">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-full bg-white/90 flex items-center justify-center text-blue-600 text-lg font-bold">
+              AZ
+            </div>
+            <h1 id="headerTitle" class="text-white font-semibold tracking-wide">Portofolio Digital Guru</h1>
+          </div>
+          <!-- Tombol "Lihat sebagai Publik" dihapus sesuai permintaan -->
+        </div>
+      </header>
+
+      <main class="grid grid-cols-1 gap-4">
+        <!-- KOLOM PENUH -->
+        <section class="space-y-4">
+          <!-- COVER + PROFIL -->
+          <section id="mainCard" class="rounded-xl border border-slate-200 overflow-hidden shadow-2xl bg-white">
+            <!-- Cover Photo dengan Upload -->
+            <div class="relative h-64 w-full bg-gradient-to-r from-blue-600 to-blue-400 overflow-hidden group">
+              <label for="coverUpload" class="absolute inset-0 cursor-pointer">
+                <input type="file" id="coverUpload" accept="image/*" class="hidden" onchange="handleCoverUpload(event)">
+                <img id="coverPhoto" src="" alt="Cover Photo" class="w-full h-full object-cover hidden">
+                <div id="coverPlaceholder" class="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/20 transition-colors">
+                  <div class="text-white text-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <svg class="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <p class="text-sm font-medium">Upload Cover Photo</p>
+                  </div>
+                </div>
+              </label>
+            </div>
+
+            <div class="relative px-6 pb-4">
+              <!-- Profile Photo -->
+              <div class="flex flex-col md:flex-row md:items-end md:justify-between -mt-20 mb-4">
+                <div class="flex flex-col md:flex-row md:items-end gap-4">
+                  <label for="photoUpload" class="w-40 h-40 rounded-full border-4 border-white bg-white flex items-center justify-center overflow-hidden shadow-2xl cursor-pointer hover:opacity-90 transition-opacity group relative">
+                    <input type="file" id="photoUpload" accept="image/*" class="hidden" onchange="handlePhotoUpload(event)">
+                    <img id="profilePhoto" src="" alt="Foto Profil" class="w-full h-full object-cover hidden">
+                    <div id="photoPlaceholder" class="w-full h-full flex flex-col items-center justify-center text-slate-400 bg-slate-100">
+                      <svg class="w-12 h-12 mb-2" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                      <span class="text-xs font-medium">Upload Foto</span>
+                    </div>
+                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors rounded-full"></div>
+                  </label>
+                  <div class="pb-2">
+                    <h2 id="profileName" class="text-2xl md:text-3xl font-bold text-slate-900">Ahmad Zaim Kholili S. Pd. Gr.</h2>
+                    <p id="profileSubtitle" class="text-base text-slate-600 mt-1">Guru Produktif TSM - SMKN 1 GROGOL</p>
+                  </div>
+                </div>
+                <div class="mt-4 md:mt-0 md:pb-2">
+                  <button type="button" onclick="sharePortfolio()" class="btn-primary w-full md:w-auto px-4 py-2 rounded-lg font-medium shadow-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                    </svg>
+                    Bagikan Portofolio
+                  </button>
+                </div>
+              </div>
+
+              <!-- Tentang Guru Section -->
+              <div class="bg-slate-50 rounded-lg p-4 mb-4 border border-slate-200">
+                <h3 class="text-sm font-semibold uppercase tracking-wide text-slate-700 mb-3">Tentang Guru</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
+                  <div class="bg-white rounded-lg p-3 border border-slate-200">
+                    <div class="flex items-center gap-2 mb-2">
+                      <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                      </svg>
+                      <p class="text-xs text-slate-500">Bidang Keahlian</p>
+                    </div>
+                    <p id="bidangKeahlian" class="text-base font-semibold text-slate-800">Teknik Sepeda Motor (TSM)</p>
+                  </div>
+                  <div class="bg-white rounded-lg p-3 border border-slate-200">
+                    <div class="flex items-center gap-2 mb-2">
+                      <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                      </svg>
+                      <p class="text-xs text-slate-500">Satuan Pendidikan</p>
+                    </div>
+                    <p id="satuanPendidikan" class="text-base font-semibold text-slate-800">SMKN 1 GROGOL</p>
+                  </div>
+                  <div class="bg-white rounded-lg p-3 border border-slate-200">
+                    <div class="flex items-center gap-2 mb-2">
+                      <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                      <p class="text-xs text-slate-500">Peran</p>
+                    </div>
+                    <p id="peran" class="text-base font-semibold text-slate-800">Guru Produktif &amp; Pengembang Media</p>
+                  </div>
+                </div>
+                <div class="bg-white rounded-lg p-3 border border-slate-200">
+                  <p id="aboutTeacherText" class="text-sm text-slate-600 leading-relaxed">Portofolio digital ini menampilkan rekam jejak profesional <span class="font-semibold text-slate-800">Ahmad Zaim Kholili S. Pd. Gr.</span> sebagai guru produktif TSM di SMKN 1 Grogol, meliputi pengembangan diri, organisasi profesi, serta karya inovatif berbasis teknologi.</p>
+                </div>
+              </div>
+
+              <!-- TAB TIMELINE -->
+              <nav id="tabsContainer" class="border-t border-slate-200 flex gap-6 text-sm font-medium text-slate-600">
+                <button id="tabBeranda" type="button" class="relative py-3 tab-active" onclick="switchTab('beranda')">Beranda</button>
+                <button id="tabTentang" type="button" class="relative py-3" onclick="switchTab('tentang')">Tentang</button>
+                <button id="tabSosmed" type="button" class="relative py-3" onclick="switchTab('sosmed')">Sosial Media</button>
+              </nav>
+            </div>
+          </section>
+
+          <!-- PANEL KONTEN: BERANDA -->
+          <section id="panelBeranda" class="space-y-4">
+            <!-- Pengembangan Diri -->
+            <article class="rounded-xl border border-slate-200 bg-white p-4 shadow-lg">
+              <h3 id="sectionPengembanganTitle" class="text-base font-semibold text-slate-900 mb-1">Kegiatan Pengembangan Diri</h3>
+              <p id="sectionPengembanganDesc" class="text-sm text-slate-600 mb-3">Kegiatan webinar yang diikuti sebagai upaya peningkatan kompetensi profesional dan pedagogik.</p>
+              <div class="space-y-2 text-sm text-slate-700">
+                <div class="flex items-start gap-2">
+                  <div class="mt-1 w-2 h-2 rounded-full bg-blue-500 flex-shrink-0"></div>
+                  <p id="pengembanganItem1">Webinar roadshow Assembler EDU tentang 3D/AR</p>
+                </div>
+                <div class="flex items-start gap-2">
+                  <div class="mt-1 w-2 h-2 rounded-full bg-blue-500 flex-shrink-0"></div>
+                  <p id="pengembanganItem2">Webinar Pemantik Series #1 tentang Chromebook</p>
+                </div>
+                <div class="flex items-start gap-2">
+                  <div class="mt-1 w-2 h-2 rounded-full bg-blue-500 flex-shrink-0"></div>
+                  <p id="pengembanganItem3">Webinar: Pemanfaatan Teknologi Digital untuk Penilaian Autentik</p>
+                </div>
+              </div>
+            </article>
+
+            <!-- Pengalaman Organisasi Profesi -->
+            <article class="rounded-xl border border-slate-200 bg-white p-4 shadow-lg">
+              <h3 id="sectionOrganisasiTitle" class="text-base font-semibold text-slate-900 mb-3">Pengalaman Organisasi Profesi</h3>
+              <div class="space-y-2 text-sm text-slate-700">
+                <div class="flex items-start gap-2">
+                  <div class="mt-1 w-2 h-2 rounded-full bg-emerald-500 flex-shrink-0"></div>
+                  <p id="organisasiItem1">Anggota MGMP TSM Kabupaten Kediri</p>
+                </div>
+                <div class="flex items-start gap-2">
+                  <div class="mt-1 w-2 h-2 rounded-full bg-emerald-500 flex-shrink-0"></div>
+                  <p id="organisasiItem2">Aktif dalam kegiatan penyusunan perangkat ajar MGMP TSM</p>
+                </div>
+              </div>
+            </article>
+
+            <!-- Pendampingan Rekan Sejawat -->
+            <article class="rounded-xl border border-slate-200 bg-white p-4 shadow-lg">
+              <h3 id="sectionPendampinganTitle" class="text-base font-semibold text-slate-900 mb-3">Pendampingan Rekan Sejawat</h3>
+              <div class="space-y-2 text-sm text-slate-700">
+                <div class="flex items-start gap-2">
+                  <div class="mt-1 w-2 h-2 rounded-full bg-purple-500 flex-shrink-0"></div>
+                  <p id="pendampinganItem1">Pendampingan implementasi media pembelajaran digital untuk guru TSM</p>
+                </div>
+                <div class="flex items-start gap-2">
+                  <div class="mt-1 w-2 h-2 rounded-full bg-purple-500 flex-shrink-0"></div>
+                  <p id="pendampinganItem2">Bimbingan penggunaan platform Canva untuk pembuatan materi ajar</p>
+                </div>
+                <div class="flex items-start gap-2">
+                  <div class="mt-1 w-2 h-2 rounded-full bg-purple-500 flex-shrink-0"></div>
+                  <p id="pendampinganItem3">Pelatihan penggunaan Google Classroom untuk pembelajaran daring</p>
+                </div>
+              </div>
+            </article>
+
+            <!-- Karya Inovasi -->
+            <article class="rounded-xl border border-slate-200 bg-white p-4 shadow-lg">
+              <h3 id="sectionKaryaTitle" class="text-base font-semibold text-slate-900 mb-3">Kumpulan Karya Inovasi / Implementasi Pembelajaran Berbasis Teknologi</h3>
+              <div class="space-y-3">
+                <!-- Video 1 -->
+                <div class="rounded-lg border border-slate-200 p-4 bg-slate-50">
+                  <div class="flex items-start gap-3">
+                    <div class="w-16 h-16 rounded-lg bg-red-600 flex items-center justify-center flex-shrink-0">
+                      <svg class="w-8 h-8 text-white" fill="currentColor" viewbox="0 0 24 24">
+                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                      </svg>
+                    </div>
+                    <div class="flex-1">
+                      <h4 class="font-semibold text-slate-900 mb-1">Video Pembelajaran 1</h4>
+                      <p class="text-sm text-slate-600 mb-3">Implementasi media pembelajaran interaktif berbasis teknologi</p>
+                      <a href="https://www.youtube.com/watch?v=Q7FHza57Eas" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition-colors">
+                        <svg class="w-4 h-4" fill="currentColor" viewbox="0 0 24 24">
+                          <path d="M8 5v14l11-7z" />
+                        </svg>
+                        Tonton di YouTube
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- Prestasi & Penghargaan -->
+            <article class="rounded-xl border border-slate-200 bg-white p-4 shadow-lg">
+              <h3 id="sectionPrestasiTitle" class="text-base font-semibold text-slate-900 mb-2">Prestasi dan Penghargaan</h3>
+              <p class="text-sm text-slate-600">(Belum ada data yang ditampilkan pada bagian ini.)</p>
+            </article>
+
+            <!-- KOLOM KOMENTAR -->
+            <article class="rounded-xl border border-slate-200 bg-white p-4 shadow-lg">
+              <h3 class="text-base font-semibold text-slate-900 mb-3">💬 Komentar</h3>
+              <!-- Form Komentar -->
+              <form onsubmit="submitComment(event)" class="mb-4 pb-4 border-b border-slate-200">
+                <div class="mb-2">
+                  <input type="text" id="commentName" placeholder="Nama Anda" class="w-full px-3 py-2 text-sm border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                <div class="mb-2">
+                  <textarea id="commentText" placeholder="Tulis komentar Anda..." rows="3" class="w-full px-3 py-2 text-sm border border-slate-300 rounded resize-none focus:outline-none focus:ring-2 focus:ring-blue-500" required></textarea>
+                </div>
+                <button type="submit" id="submitCommentBtn" class="btn-primary px-4 py-2 text-sm rounded font-medium text-white hover:opacity-90 transition-opacity">Kirim Komentar</button>
+              </form>
+              <!-- Daftar Komentar -->
+              <div id="commentsList">
+                <p class="text-sm text-slate-500 text-center py-4">Belum ada komentar. Jadilah yang pertama berkomentar!</p>
+              </div>
+            </article>
+          </section>
+
+          <!-- PANEL KONTEN: TENTANG -->
+          <section id="panelTentang" class="space-y-4 hidden">
+            <article class="rounded-xl border border-slate-200 bg-white p-4 shadow-lg">
+              <h3 id="tentangTitle" class="text-lg font-semibold text-slate-900 mb-3">Ringkasan Profil</h3>
+              <p id="tentangContent" class="text-xs text-slate-600 leading-relaxed whitespace-pre-line">Guru Produktif Teknik Sepeda Motor, masuk SMKN 1 Grogol sejak 2019 - sekarang. Pernah mendapat tugas tambahan sebagai Kepala Kompetensi Keahlian Teknik Sepeda Motor, Asisten Kurikulum Bagian Pembelajaran, Wakil Kepala Sekolah Bidang Kehumasan dan sekarang menjadi Wali Kelas.</p>
+            </article>
+          </section>
+
+          <!-- PANEL KONTEN: SOSIAL MEDIA -->
+          <section id="panelSosmed" class="space-y-4 hidden">
+            <article class="rounded-xl border border-slate-200 bg-white p-4 shadow-lg">
+              <h3 class="text-base font-semibold text-slate-900 mb-4">Sosial Media</h3>
+              <div class="space-y-3">
+                <!-- Instagram -->
+                <a id="instagramLink" href="https://www.instagram.com/pakzaimoto?igsh=MWx1ZzE3Z3Z6dnJqYQ==" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors">
+                  <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-600 via-pink-600 to-orange-500 flex items-center justify-center text-white">
+                    <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                    </svg>
+                  </div>
+                  <div class="flex-1">
+                    <p class="font-semibold text-sm text-slate-900">Instagram</p>
+                    <p id="instagramText" class="text-xs text-slate-600">@pakzaimoto</p>
+                  </div>
+                </a>
+
+                <!-- TikTok -->
+                <a id="tiktokLink" href="https://www.tiktok.com/@tsm_smkn1grogol?_r=1&_t=ZS-91bS5DPxJtl" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors">
+                  <div class="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white">
+                    <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+                      <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z" />
+                    </svg>
+                  </div>
+                  <div class="flex-1">
+                    <p class="font-semibold text-sm text-slate-900">TikTok</p>
+                    <p id="tiktokText" class="text-xs text-slate-600">@tsm_smkn1grogol</p>
+                  </div>
+                </a>
+
+                <!-- YouTube -->
+                <a id="youtubeLink" href="https://youtube.com/@pakahmadzaimsmk?si=jC3wkniHPxk8zmN7" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors">
+                  <div class="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center text-white">
+                    <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+                      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                    </svg>
+                  </div>
+                  <div class="flex-1">
+                    <p class="font-semibold text-sm text-slate-900">YouTube</p>
+                    <p id="youtubeText" class="text-xs text-slate-600">@pakahmadzaimsmk</p>
+                  </div>
+                </a>
+
+                <!-- Email -->
+                <a id="emailLink" href="mailto:ahmad0415@guru.smk.belajar.id" class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors">
+                  <div class="w-10 h-10 rounded-full bg-slate-600 flex items-center justify-center text-white">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <div class="flex-1">
+                    <p class="font-semibold text-sm text-slate-900">Email</p>
+                    <p id="emailText" class="text-xs text-slate-600">ahmad0415@guru.smk.belajar.id</p>
+                  </div>
+                </a>
+              </div>
+            </article>
+          </section>
+        </section>
+      </main>
+
+      <!-- Footer Copyright -->
+      <footer class="mt-6 text-center">
+        <p class="text-sm text-slate-500">© 2024 Ahmad Zaim Kholili. All rights reserved.</p>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const style = document.createElement("style");
+      style.textContent = `
+        .tab-active {
+          border-bottom-width: 2px;
+          border-bottom-style: solid;
+        }
+      `;
+      document.head.appendChild(style);
+    });
+  </script>
+</body>
+</html>
