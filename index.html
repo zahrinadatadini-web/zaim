@@ -1,0 +1,959 @@
+<!doctype html>
+<html lang="id">
+ <head>
+  <meta charset="UTF-8">
+  <title>Portofolio Guru - Ahmad Zaim Kholili</title><!-- Tailwind via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script><!-- Canva SDKs -->
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="/_sdk/data_sdk.js"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+  </style>
+  <script>
+    // Konfigurasi awal untuk teks yang bisa diedit dari Canva
+    const defaultConfig = {
+      header_title: "Portofolio Digital Guru",
+      profile_name: "Ahmad Zaim Kholili S. Pd. Gr.",
+      profile_subtitle: "Guru Produktif TSM - SMKN 1 GROGOL",
+      bidang_keahlian: "Teknik Sepeda Motor (TSM)",
+      satuan_pendidikan: "SMKN 1 GROGOL",
+      peran: "Guru Produktif & Pengembang Media",
+      about_teacher_text: "Portofolio digital ini menampilkan rekam jejak profesional Ahmad Zaim Kholili S. Pd. Gr. sebagai guru produktif TSM di SMKN 1 Grogol, meliputi pengembangan diri, organisasi profesi, serta karya inovatif berbasis teknologi.",
+      section_pengembangan_title: "Kegiatan Pengembangan Diri",
+      section_pengembangan_desc: "Kegiatan webinar yang diikuti sebagai upaya peningkatan kompetensi profesional dan pedagogik.",
+      section_organisasi_title: "Pengalaman Organisasi Profesi",
+      section_karya_title: "Kumpulan Karya Inovasi / Implementasi Pembelajaran Berbasis Teknologi",
+      section_prestasi_title: "Prestasi dan Penghargaan",
+      karya_item_1: "Pemanfaatan Canva untuk media pembelajaran interaktif",
+      karya_item_2: "Pemanfaatan Wayground sebagai simulasi dan latihan berbasis web",
+      karya_item_3: "Integrasi Google Workspace for Education (GWfE) dalam manajemen kelas digital",
+      karya_item_4: "Pemanfaatan YouTube sebagai kanal pembelajaran asinkron",
+      karya_item_5: "Pengembangan modul digital dan lembar kerja elektronik",
+      pengembangan_item_1: "Webinar roadshow Assembler EDU tentang 3D/AR",
+      pengembangan_item_2: "Webinar Pemantik Series #1 tentang Chromebook",
+      pengembangan_item_3: "Webinar: Pemanfaatan Teknologi Digital untuk Penilaian Autentik",
+      organisasi_item_1: "Anggota MGMP TSM Kabupaten Kediri",
+      organisasi_item_2: "Aktif dalam kegiatan penyusunan perangkat ajar MGMP TSM",
+      timeline_tab_beranda: "Beranda",
+      timeline_tab_tentang: "Tentang",
+      timeline_tab_kegiatan: "Kegiatan",
+      timeline_tab_sosmed: "Sosial Media",
+      tentang_title: "Ringkasan Profil",
+      tentang_content: "Guru Produktif Teknik Sepeda Motor, masuk SMKN 1 Grogol sejak 2019 - sekarang.\n\nPernah mendapat tugas tambahan sebagai Kepala Kompetensi Keahlian Teknik Sepeda Motor, Asisten Kurikulum Bagian Pembelajaran, Wakil Kepala Sekolah Bidang Kehumasan dan sekarang menjadi Wali Kelas.",
+      kegiatan_title: "Rekap Singkat Kegiatan Webinar",
+      kegiatan_desc: "Berikut beberapa highlight kegiatan webinar yang berhubungan langsung dengan peningkatan kualitas pembelajaran di kelas TSM:",
+      kegiatan_item_1: "Penguatan pembelajaran berbasis proyek untuk memfasilitasi kompetensi kerja nyata di dunia industri otomotif.",
+      kegiatan_item_2: "Adaptasi kurikulum Merdeka pada konteks pembelajaran vokasi, khususnya pada kompetensi keahlian Teknik Sepeda Motor.",
+      kegiatan_item_3: "Optimalisasi penggunaan platform digital untuk penilaian autentik dan portofolio siswa.",
+      facebook_link: "https://facebook.com",
+      facebook_text: "facebook.com/username",
+      instagram_link: "https://instagram.com",
+      instagram_text: "@username",
+      youtube_link: "https://youtube.com",
+      youtube_text: "youtube.com/@channel",
+      whatsapp_link: "https://wa.me/6281234567890",
+      whatsapp_text: "+62 812-3456-7890",
+      email_link: "mailto:email@example.com",
+      email_text: "email@example.com",
+      background_color: "#f8fafc",
+      surface_color: "#ffffff",
+      text_color: "#1e293b",
+      primary_action_color: "#2563eb",
+      secondary_action_color: "#64748b",
+      font_family: "system-ui",
+      font_size: 16
+    };
+
+    // State untuk menyimpan komentar
+    let allComments = [];
+    let editingCommentId = null;
+
+    // Inisialisasi Data SDK
+    (async function initDataSdk() {
+      if (!window.dataSdk) {
+        return;
+      }
+
+      const dataHandler = {
+        onDataChanged(data) {
+          allComments = data || [];
+          renderComments();
+        }
+      };
+
+      const result = await window.dataSdk.init(dataHandler);
+      if (!result.isOk) {
+        console.error("Failed to initialize data SDK");
+      }
+    })();
+
+    // Render komentar
+    function renderComments() {
+      const commentsList = document.getElementById('commentsList');
+      if (!commentsList) return;
+
+      if (allComments.length === 0) {
+        commentsList.innerHTML = '<p class="text-sm text-slate-500 text-center py-4">Belum ada komentar. Jadilah yang pertama berkomentar!</p>';
+        return;
+      }
+
+      commentsList.innerHTML = '';
+      
+      // Urutkan komentar dari yang terbaru
+      const sortedComments = [...allComments].sort((a, b) => {
+        return new Date(b.timestamp) - new Date(a.timestamp);
+      });
+
+      sortedComments.forEach(comment => {
+        const commentEl = document.createElement('div');
+        commentEl.className = 'border-b border-slate-200 pb-3 mb-3 last:border-b-0';
+        commentEl.dataset.commentId = comment.__backendId;
+
+        const date = new Date(comment.timestamp);
+        const formattedDate = date.toLocaleDateString('id-ID', { 
+          day: 'numeric', 
+          month: 'long', 
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+
+        const isEditing = editingCommentId === comment.__backendId;
+
+        if (isEditing) {
+          commentEl.innerHTML = `
+            <div class="flex items-start gap-2">
+              <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                <span class="text-xs font-semibold text-blue-600">${comment.name.charAt(0).toUpperCase()}</span>
+              </div>
+              <div class="flex-1">
+                <input type="text" id="editName_${comment.__backendId}" value="${comment.name}" class="w-full px-2 py-1 text-sm border border-slate-300 rounded mb-2" placeholder="Nama">
+                <textarea id="editComment_${comment.__backendId}" class="w-full px-2 py-1 text-sm border border-slate-300 rounded resize-none" rows="3" placeholder="Komentar">${comment.comment}</textarea>
+                <div class="flex gap-2 mt-2">
+                  <button onclick="saveEditComment('${comment.__backendId}')" class="text-xs px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700">Simpan</button>
+                  <button onclick="cancelEditComment()" class="text-xs px-3 py-1 bg-slate-300 text-slate-700 rounded hover:bg-slate-400">Batal</button>
+                </div>
+              </div>
+            </div>
+          `;
+        } else {
+          commentEl.innerHTML = `
+            <div class="flex items-start gap-2">
+              <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                <span class="text-xs font-semibold text-blue-600">${comment.name.charAt(0).toUpperCase()}</span>
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center justify-between mb-1">
+                  <h4 class="font-semibold text-sm text-slate-900">${comment.name}</h4>
+                  <div class="flex gap-2">
+                    <button onclick="startEditComment('${comment.__backendId}')" class="text-xs text-blue-600 hover:text-blue-800">Edit</button>
+                    <button onclick="deleteComment('${comment.__backendId}')" class="text-xs text-red-600 hover:text-red-800">Hapus</button>
+                  </div>
+                </div>
+                <p class="text-sm text-slate-700 mb-1">${comment.comment}</p>
+                <p class="text-xs text-slate-500">${formattedDate}</p>
+              </div>
+            </div>
+          `;
+        }
+
+        commentsList.appendChild(commentEl);
+      });
+    }
+
+    // Submit komentar baru
+    async function submitComment(event) {
+      event.preventDefault();
+
+      const nameInput = document.getElementById('commentName');
+      const commentInput = document.getElementById('commentText');
+      const submitBtn = document.getElementById('submitCommentBtn');
+
+      const name = nameInput.value.trim();
+      const comment = commentInput.value.trim();
+
+      if (!name || !comment) {
+        showToast('Nama dan komentar harus diisi!');
+        return;
+      }
+
+      if (allComments.length >= 999) {
+        showToast('Maksimal 999 komentar telah tercapai!');
+        return;
+      }
+
+      // Tampilkan loading
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Mengirim...';
+
+      const newComment = {
+        name: name,
+        comment: comment,
+        timestamp: new Date().toISOString(),
+        isOwner: false
+      };
+
+      const result = await window.dataSdk.create(newComment);
+
+      if (result.isOk) {
+        nameInput.value = '';
+        commentInput.value = '';
+        showToast('Komentar berhasil dikirim!');
+      } else {
+        showToast('Gagal mengirim komentar. Silakan coba lagi.');
+      }
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Kirim Komentar';
+    }
+
+    // Mulai edit komentar
+    function startEditComment(commentId) {
+      editingCommentId = commentId;
+      renderComments();
+    }
+
+    // Batal edit
+    function cancelEditComment() {
+      editingCommentId = null;
+      renderComments();
+    }
+
+    // Simpan edit komentar
+    async function saveEditComment(commentId) {
+      const nameInput = document.getElementById(`editName_${commentId}`);
+      const commentInput = document.getElementById(`editComment_${commentId}`);
+
+      const name = nameInput.value.trim();
+      const comment = commentInput.value.trim();
+
+      if (!name || !comment) {
+        showToast('Nama dan komentar tidak boleh kosong!');
+        return;
+      }
+
+      const commentToUpdate = allComments.find(c => c.__backendId === commentId);
+      if (!commentToUpdate) return;
+
+      const updatedComment = {
+        ...commentToUpdate,
+        name: name,
+        comment: comment
+      };
+
+      const result = await window.dataSdk.update(updatedComment);
+
+      if (result.isOk) {
+        editingCommentId = null;
+        showToast('Komentar berhasil diperbarui!');
+      } else {
+        showToast('Gagal memperbarui komentar. Silakan coba lagi.');
+      }
+    }
+
+    // Hapus komentar
+    async function deleteComment(commentId) {
+      const commentToDelete = allComments.find(c => c.__backendId === commentId);
+      if (!commentToDelete) return;
+
+      // Konfirmasi inline
+      const commentEl = document.querySelector(`[data-comment-id="${commentId}"]`);
+      if (!commentEl) return;
+
+      const originalContent = commentEl.innerHTML;
+      commentEl.innerHTML = `
+        <div class="bg-red-50 border border-red-200 rounded p-3">
+          <p class="text-sm text-red-800 mb-2">Yakin ingin menghapus komentar ini?</p>
+          <div class="flex gap-2">
+            <button onclick="confirmDelete('${commentId}')" class="text-xs px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700">Ya, Hapus</button>
+            <button onclick="cancelDelete('${commentId}', \`${originalContent.replace(/`/g, '\\`').replace(/\$/g, '\\$')}\`)" class="text-xs px-3 py-1 bg-slate-300 text-slate-700 rounded hover:bg-slate-400">Batal</button>
+          </div>
+        </div>
+      `;
+    }
+
+    async function confirmDelete(commentId) {
+      const commentToDelete = allComments.find(c => c.__backendId === commentId);
+      if (!commentToDelete) return;
+
+      const result = await window.dataSdk.delete(commentToDelete);
+
+      if (result.isOk) {
+        showToast('Komentar berhasil dihapus!');
+      } else {
+        showToast('Gagal menghapus komentar. Silakan coba lagi.');
+      }
+    }
+
+    function cancelDelete(commentId, originalContent) {
+      const commentEl = document.querySelector(`[data-comment-id="${commentId}"]`);
+      if (commentEl) {
+        renderComments();
+      }
+    }
+
+    // Inisialisasi Element SDK
+    (function initElementSdk() {
+      if (!window.elementSdk) {
+        return;
+      }
+
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange: async (config) => {
+          const cfg = Object.assign({}, defaultConfig, config || {});
+
+          const baseFont = cfg.font_family || "system-ui";
+          const fontStack = `${baseFont}, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif`;
+          const baseSize = Number(cfg.font_size || 16);
+
+          const root = document.getElementById("root");
+          if (!root) return;
+
+          root.style.fontFamily = fontStack;
+          root.style.fontSize = baseSize + "px";
+
+          const headerTitle = document.getElementById("headerTitle");
+          const profileName = document.getElementById("profileName");
+          const profileSubtitle = document.getElementById("profileSubtitle");
+          const bidangKeahlian = document.getElementById("bidangKeahlian");
+          const satuanPendidikan = document.getElementById("satuanPendidikan");
+          const peran = document.getElementById("peran");
+          const sectionPengembanganTitle = document.getElementById("sectionPengembanganTitle");
+          const sectionPengembanganDesc = document.getElementById("sectionPengembanganDesc");
+          const sectionOrganisasiTitle = document.getElementById("sectionOrganisasiTitle");
+          const sectionKaryaTitle = document.getElementById("sectionKaryaTitle");
+          const sectionPrestasiTitle = document.getElementById("sectionPrestasiTitle");
+          const karyaItems = [
+            document.getElementById("karyaItem1"),
+            document.getElementById("karyaItem2"),
+            document.getElementById("karyaItem3"),
+            document.getElementById("karyaItem4"),
+            document.getElementById("karyaItem5")
+          ];
+          const pengembanganItems = [
+            document.getElementById("pengembanganItem1"),
+            document.getElementById("pengembanganItem2"),
+            document.getElementById("pengembanganItem3")
+          ];
+          const organisasiItems = [
+            document.getElementById("organisasiItem1"),
+            document.getElementById("organisasiItem2")
+          ];
+          const tabBeranda = document.getElementById("tabBeranda");
+          const tabTentang = document.getElementById("tabTentang");
+          const tabKegiatan = document.getElementById("tabKegiatan");
+          const tabSosmed = document.getElementById("tabSosmed");
+          const tentangTitle = document.getElementById("tentangTitle");
+          const tentangContent = document.getElementById("tentangContent");
+          const kegiatanTitle = document.getElementById("kegiatanTitle");
+          const kegiatanDesc = document.getElementById("kegiatanDesc");
+          const kegiatanItems = [
+            document.getElementById("kegiatanItem1"),
+            document.getElementById("kegiatanItem2"),
+            document.getElementById("kegiatanItem3")
+          ];
+
+          if (headerTitle) {
+            headerTitle.textContent = cfg.header_title;
+            headerTitle.style.fontSize = baseSize * 1.6 + "px";
+          }
+          if (profileName) {
+            profileName.textContent = cfg.profile_name;
+            profileName.style.fontSize = baseSize * 1.4 + "px";
+          }
+          if (profileSubtitle) {
+            profileSubtitle.textContent = cfg.profile_subtitle;
+            profileSubtitle.style.fontSize = baseSize * 0.95 + "px";
+          }
+          if (bidangKeahlian) {
+            bidangKeahlian.textContent = cfg.bidang_keahlian;
+          }
+          if (satuanPendidikan) {
+            satuanPendidikan.textContent = cfg.satuan_pendidikan;
+          }
+          if (peran) {
+            peran.textContent = cfg.peran;
+          }
+
+          if (sectionPengembanganTitle) {
+            sectionPengembanganTitle.textContent = cfg.section_pengembangan_title;
+            sectionPengembanganTitle.style.fontSize = baseSize * 1.2 + "px";
+          }
+          if (sectionPengembanganDesc) {
+            sectionPengembanganDesc.textContent = cfg.section_pengembangan_desc;
+            sectionPengembanganDesc.style.fontSize = baseSize * 0.9 + "px";
+          }
+
+          if (sectionOrganisasiTitle) {
+            sectionOrganisasiTitle.textContent = cfg.section_organisasi_title;
+            sectionOrganisasiTitle.style.fontSize = baseSize * 1.2 + "px";
+          }
+
+          if (sectionKaryaTitle) {
+            sectionKaryaTitle.textContent = cfg.section_karya_title;
+            sectionKaryaTitle.style.fontSize = baseSize * 1.2 + "px";
+          }
+
+          if (sectionPrestasiTitle) {
+            sectionPrestasiTitle.textContent = cfg.section_prestasi_title;
+            sectionPrestasiTitle.style.fontSize = baseSize * 1.2 + "px";
+          }
+
+          if (karyaItems[0]) karyaItems[0].textContent = cfg.karya_item_1;
+          if (karyaItems[1]) karyaItems[1].textContent = cfg.karya_item_2;
+          if (karyaItems[2]) karyaItems[2].textContent = cfg.karya_item_3;
+          if (karyaItems[3]) karyaItems[3].textContent = cfg.karya_item_4;
+          if (karyaItems[4]) karyaItems[4].textContent = cfg.karya_item_5;
+
+          if (pengembanganItems[0]) pengembanganItems[0].textContent = cfg.pengembangan_item_1;
+          if (pengembanganItems[1]) pengembanganItems[1].textContent = cfg.pengembangan_item_2;
+          if (pengembanganItems[2]) pengembanganItems[2].textContent = cfg.pengembangan_item_3;
+
+          if (organisasiItems[0]) organisasiItems[0].textContent = cfg.organisasi_item_1;
+          if (organisasiItems[1]) organisasiItems[1].textContent = cfg.organisasi_item_2;
+
+          if (tabBeranda) tabBeranda.textContent = cfg.timeline_tab_beranda;
+          if (tabTentang) tabTentang.textContent = cfg.timeline_tab_tentang;
+          if (tabKegiatan) tabKegiatan.textContent = cfg.timeline_tab_kegiatan;
+          if (tabSosmed) tabSosmed.textContent = cfg.timeline_tab_sosmed;
+
+          if (tentangTitle) {
+            tentangTitle.textContent = cfg.tentang_title;
+            tentangTitle.style.fontSize = baseSize * 1.2 + "px";
+          }
+          if (tentangContent) {
+            tentangContent.textContent = cfg.tentang_content;
+            tentangContent.style.fontSize = baseSize * 0.9 + "px";
+          }
+
+          if (kegiatanTitle) {
+            kegiatanTitle.textContent = cfg.kegiatan_title;
+            kegiatanTitle.style.fontSize = baseSize * 1.2 + "px";
+          }
+          if (kegiatanDesc) {
+            kegiatanDesc.textContent = cfg.kegiatan_desc;
+            kegiatanDesc.style.fontSize = baseSize * 0.9 + "px";
+          }
+
+          if (kegiatanItems[0]) kegiatanItems[0].textContent = cfg.kegiatan_item_1;
+          if (kegiatanItems[1]) kegiatanItems[1].textContent = cfg.kegiatan_item_2;
+          if (kegiatanItems[2]) kegiatanItems[2].textContent = cfg.kegiatan_item_3;
+
+          const aboutTeacherText = document.getElementById("aboutTeacherText");
+          if (aboutTeacherText) {
+            aboutTeacherText.innerHTML = cfg.about_teacher_text;
+            aboutTeacherText.style.fontSize = baseSize * 0.9 + "px";
+          }
+
+          // Update sosial media links dan text
+          const facebookLink = document.getElementById("facebookLink");
+          const facebookText = document.getElementById("facebookText");
+          const instagramLink = document.getElementById("instagramLink");
+          const instagramText = document.getElementById("instagramText");
+          const youtubeLink = document.getElementById("youtubeLink");
+          const youtubeText = document.getElementById("youtubeText");
+          const whatsappLink = document.getElementById("whatsappLink");
+          const whatsappText = document.getElementById("whatsappText");
+          const emailLink = document.getElementById("emailLink");
+          const emailText = document.getElementById("emailText");
+
+          if (facebookLink) facebookLink.href = cfg.facebook_link;
+          if (facebookText) facebookText.textContent = cfg.facebook_text;
+          if (instagramLink) instagramLink.href = cfg.instagram_link;
+          if (instagramText) instagramText.textContent = cfg.instagram_text;
+          if (youtubeLink) youtubeLink.href = cfg.youtube_link;
+          if (youtubeText) youtubeText.textContent = cfg.youtube_text;
+          if (whatsappLink) whatsappLink.href = cfg.whatsapp_link;
+          if (whatsappText) whatsappText.textContent = cfg.whatsapp_text;
+          if (emailLink) emailLink.href = cfg.email_link;
+          if (emailText) emailText.textContent = cfg.email_text;
+
+          const backgroundColor = cfg.background_color || "#f8fafc";
+          const surfaceColor = cfg.surface_color || "#ffffff";
+          const textColor = cfg.text_color || "#1e293b";
+          const primaryActionColor = cfg.primary_action_color || "#2563eb";
+          const secondaryActionColor = cfg.secondary_action_color || "#64748b";
+
+          document.body.style.backgroundColor = backgroundColor;
+          root.style.color = textColor;
+
+          const cover = document.getElementById("coverArea");
+          const mainCard = document.getElementById("mainCard");
+          const leftCard = document.getElementById("leftCard");
+          const tabsContainer = document.getElementById("tabsContainer");
+          const activeTab = document.querySelector(".tab-active");
+          const buttonsPrimary = document.querySelectorAll(".btn-primary");
+          const buttonsSecondary = document.querySelectorAll(".btn-secondary");
+
+          if (cover) {
+            cover.style.background = "linear-gradient(to right, " + primaryActionColor + ", " + secondaryActionColor + ")";
+          }
+          if (mainCard) {
+            mainCard.style.backgroundColor = surfaceColor;
+          }
+          if (leftCard) {
+            leftCard.style.backgroundColor = surfaceColor;
+          }
+          if (tabsContainer) {
+            tabsContainer.style.backgroundColor = surfaceColor;
+          }
+          if (activeTab) {
+            activeTab.style.borderBottomColor = primaryActionColor;
+            activeTab.style.color = textColor;
+          }
+
+          buttonsPrimary.forEach((btn) => {
+            btn.style.backgroundColor = primaryActionColor;
+            btn.style.color = "#ffffff";
+          });
+
+          buttonsSecondary.forEach((btn) => {
+            btn.style.backgroundColor = secondaryActionColor;
+            btn.style.color = "#ffffff";
+          });
+        },
+        mapToCapabilities: (config) => {
+          const cfg = Object.assign({}, defaultConfig, config || {});
+          return {
+            recolorables: [
+              {
+                get: () => cfg.background_color || "#f8fafc",
+                set: (value) => {
+                  window.elementSdk.setConfig({ background_color: value });
+                }
+              },
+              {
+                get: () => cfg.surface_color || "#ffffff",
+                set: (value) => {
+                  window.elementSdk.setConfig({ surface_color: value });
+                }
+              },
+              {
+                get: () => cfg.text_color || "#1e293b",
+                set: (value) => {
+                  window.elementSdk.setConfig({ text_color: value });
+                }
+              },
+              {
+                get: () => cfg.primary_action_color || "#2563eb",
+                set: (value) => {
+                  window.elementSdk.setConfig({ primary_action_color: value });
+                }
+              },
+              {
+                get: () => cfg.secondary_action_color || "#64748b",
+                set: (value) => {
+                  window.elementSdk.setConfig({ secondary_action_color: value });
+                }
+              }
+            ],
+            borderables: [],
+            fontEditable: {
+              get: () => cfg.font_family || "system-ui",
+              set: (value) => {
+                window.elementSdk.setConfig({ font_family: value });
+              }
+            },
+            fontSizeable: {
+              get: () => Number(cfg.font_size || 16),
+              set: (value) => {
+                const numeric = Number(value) || 16;
+                window.elementSdk.setConfig({ font_size: numeric });
+              }
+            }
+          };
+        },
+        mapToEditPanelValues: (config) => {
+          const cfg = Object.assign({}, defaultConfig, config || {});
+          return new Map([
+            ["header_title", cfg.header_title],
+            ["profile_name", cfg.profile_name],
+            ["profile_subtitle", cfg.profile_subtitle],
+            ["bidang_keahlian", cfg.bidang_keahlian],
+            ["satuan_pendidikan", cfg.satuan_pendidikan],
+            ["peran", cfg.peran],
+            ["about_teacher_text", cfg.about_teacher_text],
+            ["section_pengembangan_title", cfg.section_pengembangan_title],
+            ["section_pengembangan_desc", cfg.section_pengembangan_desc],
+            ["section_organisasi_title", cfg.section_organisasi_title],
+            ["section_karya_title", cfg.section_karya_title],
+            ["section_prestasi_title", cfg.section_prestasi_title],
+            ["karya_item_1", cfg.karya_item_1],
+            ["karya_item_2", cfg.karya_item_2],
+            ["karya_item_3", cfg.karya_item_3],
+            ["karya_item_4", cfg.karya_item_4],
+            ["karya_item_5", cfg.karya_item_5],
+            ["pengembangan_item_1", cfg.pengembangan_item_1],
+            ["pengembangan_item_2", cfg.pengembangan_item_2],
+            ["pengembangan_item_3", cfg.pengembangan_item_3],
+            ["organisasi_item_1", cfg.organisasi_item_1],
+            ["organisasi_item_2", cfg.organisasi_item_2],
+            ["timeline_tab_beranda", cfg.timeline_tab_beranda],
+            ["timeline_tab_tentang", cfg.timeline_tab_tentang],
+            ["timeline_tab_kegiatan", cfg.timeline_tab_kegiatan],
+            ["timeline_tab_sosmed", cfg.timeline_tab_sosmed],
+            ["tentang_title", cfg.tentang_title],
+            ["tentang_content", cfg.tentang_content],
+            ["kegiatan_title", cfg.kegiatan_title],
+            ["kegiatan_desc", cfg.kegiatan_desc],
+            ["kegiatan_item_1", cfg.kegiatan_item_1],
+            ["kegiatan_item_2", cfg.kegiatan_item_2],
+            ["kegiatan_item_3", cfg.kegiatan_item_3],
+            ["facebook_link", cfg.facebook_link],
+            ["facebook_text", cfg.facebook_text],
+            ["instagram_link", cfg.instagram_link],
+            ["instagram_text", cfg.instagram_text],
+            ["youtube_link", cfg.youtube_link],
+            ["youtube_text", cfg.youtube_text],
+            ["whatsapp_link", cfg.whatsapp_link],
+            ["whatsapp_text", cfg.whatsapp_text],
+            ["email_link", cfg.email_link],
+            ["email_text", cfg.email_text]
+          ]);
+        }
+      });
+    })();
+
+    // Fungsi upload foto profil
+    function handlePhotoUpload(event) {
+      const file = event.target.files[0];
+      if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const profilePhoto = document.getElementById('profilePhoto');
+          const photoPlaceholder = document.getElementById('photoPlaceholder');
+          if (profilePhoto && photoPlaceholder) {
+            profilePhoto.src = e.target.result;
+            profilePhoto.classList.remove('hidden');
+            photoPlaceholder.classList.add('hidden');
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    // Fungsi upload cover photo
+    function handleCoverUpload(event) {
+      const file = event.target.files[0];
+      if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const coverPhoto = document.getElementById('coverPhoto');
+          const coverPlaceholder = document.getElementById('coverPlaceholder');
+          if (coverPhoto && coverPlaceholder) {
+            coverPhoto.src = e.target.result;
+            coverPhoto.classList.remove('hidden');
+            coverPlaceholder.classList.add('hidden');
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    // Fungsi bagikan portofolio
+    function sharePortfolio() {
+      const shareData = {
+        title: 'Portofolio Digital Guru - Ahmad Zaim Kholili',
+        text: 'Lihat portofolio digital saya sebagai Guru Produktif TSM di SMKN 1 GROGOL',
+        url: window.location.href
+      };
+
+      if (navigator.share) {
+        navigator.share(shareData).catch(() => {
+          copyToClipboard(window.location.href);
+        });
+      } else {
+        copyToClipboard(window.location.href);
+      }
+    }
+
+    function copyToClipboard(text) {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+      
+      showToast('Link portofolio berhasil disalin!');
+    }
+
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.textContent = message;
+      toast.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#2563eb;color:white;padding:12px 24px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);z-index:1000;font-size:14px;';
+      document.body.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 0.3s';
+        setTimeout(() => document.body.removeChild(toast), 300);
+      }, 2000);
+    }
+
+    // Logika tab sederhana
+    function switchTab(tab) {
+      const tabBeranda = document.getElementById("tabBeranda");
+      const tabTentang = document.getElementById("tabTentang");
+      const tabSosmed = document.getElementById("tabSosmed");
+      const berandaPanel = document.getElementById("panelBeranda");
+      const tentangPanel = document.getElementById("panelTentang");
+      const sosmedPanel = document.getElementById("panelSosmed");
+
+      [tabBeranda, tabTentang, tabSosmed].forEach((el) => {
+        if (!el) return;
+        el.classList.remove("tab-active");
+      });
+
+      [berandaPanel, tentangPanel, sosmedPanel].forEach((el) => {
+        if (!el) return;
+        el.classList.add("hidden");
+      });
+
+      if (tab === "beranda") {
+        if (tabBeranda) tabBeranda.classList.add("tab-active");
+        if (berandaPanel) berandaPanel.classList.remove("hidden");
+      } else if (tab === "tentang") {
+        if (tabTentang) tabTentang.classList.add("tab-active");
+        if (tentangPanel) tentangPanel.classList.remove("hidden");
+      } else if (tab === "sosmed") {
+        if (tabSosmed) tabSosmed.classList.add("tab-active");
+        if (sosmedPanel) sosmedPanel.classList.remove("hidden");
+      }
+    }
+  </script>
+  <style>@view-transition { navigation: auto; }</style>
+ </head>
+ <body class="h-full">
+  <div id="root" class="h-full w-full flex items-center justify-center px-4 py-4">
+   <div class="max-w-5xl w-full"><!-- HEADER ATAS -->
+    <header class="mb-4">
+     <div class="flex items-center justify-between rounded-xl px-4 py-3 shadow-lg border border-slate-200" style="background: linear-gradient(to right, #2563eb, #3b82f6);">
+      <div class="flex items-center gap-2">
+       <div class="w-8 h-8 rounded-full bg-white/90 flex items-center justify-center text-blue-600 text-lg font-bold">
+        AZ
+       </div>
+       <h1 id="headerTitle" class="text-white font-semibold tracking-wide">Portofolio Digital Guru</h1>
+      </div>
+      <div class="flex items-center gap-2"><a href="https://www.canva.com" target="_blank" rel="noopener noreferrer" class="btn-secondary text-xs md:text-sm px-3 py-1.5 rounded-full font-medium border border-white/30 text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white inline-block hover:bg-white/10 transition-colors"> Lihat sebagai Publik </a>
+      </div>
+     </div>
+    </header>
+    <main class="grid grid-cols-1 gap-4"><!-- KOLOM PENUH -->
+     <section class="space-y-4"><!-- COVER + PROFIL -->
+      <section id="mainCard" class="rounded-xl border border-slate-200 overflow-hidden shadow-2xl bg-white"><!-- Cover Photo dengan Upload -->
+       <div class="relative h-64 w-full bg-gradient-to-r from-blue-600 to-blue-400 overflow-hidden group"><label for="coverUpload" class="absolute inset-0 cursor-pointer"> <input type="file" id="coverUpload" accept="image/*" class="hidden" onchange="handleCoverUpload(event)"> <img id="coverPhoto" src="" alt="Cover Photo" class="w-full h-full object-cover hidden">
+         <div id="coverPlaceholder" class="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/20 transition-colors">
+          <div class="text-white text-center opacity-0 group-hover:opacity-100 transition-opacity">
+           <svg class="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+           </svg>
+           <p class="text-sm font-medium">Upload Cover Photo</p>
+          </div>
+         </div></label>
+       </div>
+       <div class="relative px-6 pb-4"><!-- Profile Photo -->
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between -mt-20 mb-4">
+         <div class="flex flex-col md:flex-row md:items-end gap-4"><label for="photoUpload" class="w-40 h-40 rounded-full border-4 border-white bg-white flex items-center justify-center overflow-hidden shadow-2xl cursor-pointer hover:opacity-90 transition-opacity group relative"> <input type="file" id="photoUpload" accept="image/*" class="hidden" onchange="handlePhotoUpload(event)"> <img id="profilePhoto" src="" alt="Foto Profil" class="w-full h-full object-cover hidden">
+           <div id="photoPlaceholder" class="w-full h-full flex flex-col items-center justify-center text-slate-400 bg-slate-100">
+            <svg class="w-12 h-12 mb-2" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg><span class="text-xs font-medium">Upload Foto</span>
+           </div>
+           <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors rounded-full"></div></label>
+          <div class="pb-2">
+           <h2 id="profileName" class="text-2xl md:text-3xl font-bold text-slate-900">Ahmad Zaim Kholili S. Pd. Gr.</h2>
+           <p id="profileSubtitle" class="text-base text-slate-600 mt-1">Guru Produktif TSM - SMKN 1 GROGOL</p>
+          </div>
+         </div>
+         <div class="mt-4 md:mt-0 md:pb-2"><button type="button" onclick="sharePortfolio()" class="btn-primary w-full md:w-auto px-4 py-2 rounded-lg font-medium shadow-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+           </svg> Bagikan Portofolio </button>
+         </div>
+        </div><!-- Tentang Guru Section -->
+        <div class="bg-slate-50 rounded-lg p-4 mb-4 border border-slate-200">
+         <h3 class="text-sm font-semibold uppercase tracking-wide text-slate-700 mb-3">Tentang Guru</h3>
+         <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
+          <div class="bg-white rounded-lg p-3 border border-slate-200">
+           <div class="flex items-center gap-2 mb-2">
+            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+            </svg>
+            <p class="text-xs text-slate-500">Bidang Keahlian</p>
+           </div>
+           <p id="bidangKeahlian" class="text-base font-semibold text-slate-800">Teknik Sepeda Motor (TSM)</p>
+          </div>
+          <div class="bg-white rounded-lg p-3 border border-slate-200">
+           <div class="flex items-center gap-2 mb-2">
+            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+            </svg>
+            <p class="text-xs text-slate-500">Satuan Pendidikan</p>
+           </div>
+           <p id="satuanPendidikan" class="text-base font-semibold text-slate-800">SMKN 1 GROGOL</p>
+          </div>
+          <div class="bg-white rounded-lg p-3 border border-slate-200">
+           <div class="flex items-center gap-2 mb-2">
+            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+            <p class="text-xs text-slate-500">Peran</p>
+           </div>
+           <p id="peran" class="text-base font-semibold text-slate-800">Guru Produktif &amp; Pengembang Media</p>
+          </div>
+         </div>
+         <div class="bg-white rounded-lg p-3 border border-slate-200">
+          <p id="aboutTeacherText" class="text-sm text-slate-600 leading-relaxed">Portofolio digital ini menampilkan rekam jejak profesional <span class="font-semibold text-slate-800">Ahmad Zaim Kholili S. Pd. Gr.</span> sebagai guru produktif TSM di SMKN 1 Grogol, meliputi pengembangan diri, organisasi profesi, serta karya inovatif berbasis teknologi.</p>
+         </div>
+        </div><!-- TAB TIMELINE -->
+        <nav id="tabsContainer" class="border-t border-slate-200 flex gap-6 text-sm font-medium text-slate-600"><button id="tabBeranda" type="button" class="relative py-3 tab-active" onclick="switchTab('beranda')"> Beranda </button> <button id="tabTentang" type="button" class="relative py-3" onclick="switchTab('tentang')"> Tentang </button> <button id="tabSosmed" type="button" class="relative py-3" onclick="switchTab('sosmed')"> Sosial Media </button>
+        </nav>
+       </div>
+      </section><!-- PANEL KONTEN: BERANDA -->
+      <section id="panelBeranda" class="space-y-4"><!-- Pengembangan Diri -->
+       <article class="rounded-xl border border-slate-200 bg-white p-4 shadow-lg">
+        <h3 id="sectionPengembanganTitle" class="text-base font-semibold text-slate-900 mb-1">Kegiatan Pengembangan Diri</h3>
+        <p id="sectionPengembanganDesc" class="text-sm text-slate-600 mb-3">Kegiatan webinar yang diikuti sebagai upaya peningkatan kompetensi profesional dan pedagogik.</p>
+        <div class="space-y-2 text-sm text-slate-700">
+         <div class="flex items-start gap-2">
+          <div class="mt-1 w-2 h-2 rounded-full bg-blue-500 flex-shrink-0"></div>
+          <p id="pengembanganItem1">Webinar roadshow Assembler EDU tentang 3D/AR</p>
+         </div>
+         <div class="flex items-start gap-2">
+          <div class="mt-1 w-2 h-2 rounded-full bg-blue-500 flex-shrink-0"></div>
+          <p id="pengembanganItem2">Webinar Pemantik Series #1 tentang Chromebook</p>
+         </div>
+        </div>
+       </article><!-- Pengalaman Organisasi Profesi -->
+       <article class="rounded-xl border border-slate-200 bg-white p-4 shadow-lg">
+        <h3 id="sectionOrganisasiTitle" class="text-base font-semibold text-slate-900 mb-3">Pengalaman Organisasi Profesi</h3>
+        <div class="space-y-2 text-sm text-slate-700">
+         <div class="flex items-start gap-2">
+          <div class="mt-1 w-2 h-2 rounded-full bg-emerald-500 flex-shrink-0"></div>
+          <p id="organisasiItem1">Anggota aktif MGMP TSM Kabupaten Kediri</p>
+         </div>
+        </div>
+       </article><!-- Karya Inovasi -->
+       <article class="rounded-xl border border-slate-200 bg-white p-4 shadow-lg">
+        <h3 id="sectionKaryaTitle" class="text-base font-semibold text-slate-900 mb-3">Kumpulan Karya Inovasi / Implementasi Pembelajaran Berbasis Teknologi</h3>
+        <div class="space-y-3"><!-- Video 1 -->
+         <div class="rounded-lg border border-slate-200 p-4 bg-slate-50">
+          <div class="flex items-start gap-3">
+           <div class="w-16 h-16 rounded-lg bg-red-600 flex items-center justify-center flex-shrink-0">
+            <svg class="w-8 h-8 text-white" fill="currentColor" viewbox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+            </svg>
+           </div>
+           <div class="flex-1">
+            <h4 class="font-semibold text-slate-900 mb-1">Video Pembelajaran 1</h4>
+            <p class="text-sm text-slate-600 mb-3">Implementasi media pembelajaran interaktif berbasis teknologi</p><a href="https://www.youtube.com/watch?v=Q7FHza57Eas" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition-colors">
+             <svg class="w-4 h-4" fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z" />
+             </svg> Tonton di YouTube </a>
+           </div>
+          </div>
+         </div><!-- Video 2 -->
+         <div class="rounded-lg border border-slate-200 p-4 bg-slate-50">
+          <div class="flex items-start gap-3">
+           <div class="w-16 h-16 rounded-lg bg-red-600 flex items-center justify-center flex-shrink-0">
+            <svg class="w-8 h-8 text-white" fill="currentColor" viewbox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+            </svg>
+           </div>
+           <div class="flex-1">
+            <h4 class="font-semibold text-slate-900 mb-1">Video Pembelajaran 2</h4>
+            <p class="text-sm text-slate-600 mb-3">Pemanfaatan teknologi digital dalam pembelajaran TSM</p><a href="https://www.youtube.com/watch?v=8U826tQJcc8" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition-colors">
+             <svg class="w-4 h-4" fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z" />
+             </svg> Tonton di YouTube </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </article><!-- Prestasi & Penghargaan -->
+       <article class="rounded-xl border border-slate-200 bg-white p-4 shadow-lg">
+        <h3 id="sectionPrestasiTitle" class="text-base font-semibold text-slate-900 mb-2">Prestasi dan Penghargaan</h3>
+        <p class="text-sm text-slate-600">(Belum ada data yang ditampilkan pada bagian ini.)</p>
+       </article><!-- KOLOM KOMENTAR -->
+       <article class="rounded-xl border border-slate-200 bg-white p-4 shadow-lg">
+        <h3 class="text-base font-semibold text-slate-900 mb-3">���� Komentar</h3><!-- Form Komentar -->
+        <form onsubmit="submitComment(event)" class="mb-4 pb-4 border-b border-slate-200">
+         <div class="mb-2"><input type="text" id="commentName" placeholder="Nama Anda" class="w-full px-3 py-2 text-sm border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+         </div>
+         <div class="mb-2"><textarea id="commentText" placeholder="Tulis komentar Anda..." rows="3" class="w-full px-3 py-2 text-sm border border-slate-300 rounded resize-none focus:outline-none focus:ring-2 focus:ring-blue-500" required></textarea>
+         </div><button type="submit" id="submitCommentBtn" class="btn-primary px-4 py-2 text-sm rounded font-medium text-white hover:opacity-90 transition-opacity"> Kirim Komentar </button>
+        </form><!-- Daftar Komentar -->
+        <div id="commentsList">
+         <p class="text-sm text-slate-500 text-center py-4">Belum ada komentar. Jadilah yang pertama berkomentar!</p>
+        </div>
+       </article>
+      </section><!-- PANEL KONTEN: TENTANG -->
+      <section id="panelTentang" class="space-y-4 hidden">
+       <article class="rounded-xl border border-slate-200 bg-white p-4 shadow-lg">
+        <h3 id="tentangTitle" class="text-lg font-semibold text-slate-900 mb-3">Ringkasan Profil</h3>
+        <p id="tentangContent" class="text-xs text-slate-600 leading-relaxed whitespace-pre-line">Guru Produktif Teknik Sepeda Motor, masuk SMKN 1 Grogol sejak 2019 - sekarang. Pernah mendapat tugas tambahan sebagai Kepala Kompetensi Keahlian Teknik Sepeda Motor, Asisten Kurikulum Bagian Pembelajaran, Wakil Kepala Sekolah Bidang Kehumasan dan sekarang menjadi Wali Kelas.</p>
+       </article>
+      </section><!-- PANEL KONTEN: SOSIAL MEDIA -->
+      <section id="panelSosmed" class="space-y-4 hidden">
+       <article class="rounded-xl border border-slate-200 bg-white p-4 shadow-lg">
+        <h3 class="text-base font-semibold text-slate-900 mb-4">Sosial Media</h3>
+        <div class="space-y-3"><!-- Facebook --> <a id="facebookLink" href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors">
+          <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white">
+           <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+           </svg>
+          </div>
+          <div class="flex-1">
+           <p class="font-semibold text-sm text-slate-900">Facebook</p>
+           <p id="facebookText" class="text-xs text-slate-600">facebook.com/username</p>
+          </div></a> <!-- Instagram --> <a id="instagramLink" href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors">
+          <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-600 via-pink-600 to-orange-500 flex items-center justify-center text-white">
+           <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+           </svg>
+          </div>
+          <div class="flex-1">
+           <p class="font-semibold text-sm text-slate-900">Instagram</p>
+           <p id="instagramText" class="text-xs text-slate-600">@username</p>
+          </div></a> <!-- YouTube --> <a id="youtubeLink" href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors">
+          <div class="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center text-white">
+           <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+           </svg>
+          </div>
+          <div class="flex-1">
+           <p class="font-semibold text-sm text-slate-900">YouTube</p>
+           <p id="youtubeText" class="text-xs text-slate-600">youtube.com/@channel</p>
+          </div></a> <!-- WhatsApp --> <a id="whatsappLink" href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors">
+          <div class="w-10 h-10 rounded-full bg-green-600 flex items-center justify-center text-white">
+           <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+           </svg>
+          </div>
+          <div class="flex-1">
+           <p class="font-semibold text-sm text-slate-900">WhatsApp</p>
+           <p id="whatsappText" class="text-xs text-slate-600">+62 812-3456-7890</p>
+          </div></a> <!-- Email --> <a id="emailLink" href="mailto:email@example.com" class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors">
+          <div class="w-10 h-10 rounded-full bg-slate-600 flex items-center justify-center text-white">
+           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+           </svg>
+          </div>
+          <div class="flex-1">
+           <p class="font-semibold text-sm text-slate-900">Email</p>
+           <p id="emailText" class="text-xs text-slate-600">email@example.com</p>
+          </div></a>
+        </div>
+       </article>
+      </section>
+     </section>
+    </main><!-- Footer Copyright -->
+    <footer class="mt-6 text-center">
+     <p class="text-sm text-slate-500">© 2024 Ahmad Zaim Kholili. All rights reserved.</p>
+    </footer>
+   </div>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const style = document.createElement("style");
+      style.textContent = `
+        .tab-active {
+          border-bottom-width: 2px;
+          border-bottom-style: solid;
+        }
+      `;
+      document.head.appendChild(style);
+    });
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a2f393782e6f02d',t:'MTc2Mzg4NTc3Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
