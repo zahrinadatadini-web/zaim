@@ -64,6 +64,7 @@
       text_color: "#1e293b",
       primary_action_color: "#2563eb",
       secondary_action_color: "#64748b",
+      share_button_color: "#059669", // Warna hijau untuk tombol bagikan
       font_family: "system-ui",
       font_size: 16
     };
@@ -489,6 +490,7 @@
           const textColor = cfg.text_color || "#1e293b";
           const primaryActionColor = cfg.primary_action_color || "#2563eb";
           const secondaryActionColor = cfg.secondary_action_color || "#64748b";
+          const shareButtonColor = cfg.share_button_color || "#059669";
 
           document.body.style.backgroundColor = backgroundColor;
           root.style.color = textColor;
@@ -500,6 +502,7 @@
           const activeTab = document.querySelector(".tab-active");
           const buttonsPrimary = document.querySelectorAll(".btn-primary");
           const buttonsSecondary = document.querySelectorAll(".btn-secondary");
+          const shareButton = document.getElementById("shareButton");
 
           if (cover) {
             cover.style.background = "linear-gradient(to right, " + primaryActionColor + ", " + secondaryActionColor + ")";
@@ -527,6 +530,12 @@
             btn.style.backgroundColor = secondaryActionColor;
             btn.style.color = "#ffffff";
           });
+
+          // Update warna tombol bagikan
+          if (shareButton) {
+            shareButton.style.backgroundColor = shareButtonColor;
+            shareButton.style.color = "#ffffff";
+          }
         },
         mapToCapabilities: (config) => {
           const cfg = Object.assign({}, defaultConfig, config || {});
@@ -560,6 +569,12 @@
                 get: () => cfg.secondary_action_color || "#64748b",
                 set: (value) => {
                   window.elementSdk.setConfig({ secondary_action_color: value });
+                }
+              },
+              {
+                get: () => cfg.share_button_color || "#059669",
+                set: (value) => {
+                  window.elementSdk.setConfig({ share_button_color: value });
                 }
               }
             ],
@@ -626,7 +641,8 @@
             ["youtube_link", cfg.youtube_link],
             ["youtube_text", cfg.youtube_text],
             ["email_link", cfg.email_link],
-            ["email_text", cfg.email_text]
+            ["email_text", cfg.email_text],
+            ["share_button_color", cfg.share_button_color]
           ]);
         }
       });
@@ -701,7 +717,7 @@
     function showToast(message) {
       const toast = document.createElement('div');
       toast.textContent = message;
-      toast.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#2563eb;color:white;padding:12px 24px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);z-index:1000;font-size:14px;';
+      toast.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#059669;color:white;padding:12px 24px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);z-index:1000;font-size:14px;';
       document.body.appendChild(toast);
       setTimeout(() => {
         toast.style.opacity = '0';
@@ -802,7 +818,7 @@
                   </div>
                 </div>
                 <div class="mt-4 md:mt-0 md:pb-2">
-                  <button type="button" onclick="sharePortfolio()" class="btn-primary w-full md:w-auto px-4 py-2 rounded-lg font-medium shadow-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+                  <button id="shareButton" type="button" onclick="sharePortfolio()" class="w-full md:w-auto px-4 py-2 rounded-lg font-medium shadow-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 hover:opacity-90 transition-opacity flex items-center justify-center gap-2" style="background-color: #059669;">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
                     </svg>
